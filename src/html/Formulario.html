@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>¡Registra tu avistamiento!</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  </head>
+
+  <body>
+    <header class="navbar">
+        <h1>Unión de Ornitólogos de Chile</h1>
+        <a class="navbar-page" href="../html/Interfaz.html">Inicio</a>
+        <a id="logout-btn" href="../html/Registro.html">Cerrar Sesión</a>
+    </header>
+
+    <div class="container">
+      <nav class="navbar">
+        <button id="list-bird-btn">Ver Listado</button>
+        <button id="stats-bird-btn">Ver Estadísticas</button>
+      </nav>
+    </div>
+
+    <main class="main-container">
+      <div class="vol-user">
+          <h2>Registra tu avistamiento</h2>
+
+          <form class="formulario" id="form-avistamiento">
+            <div id="nombre-input" class="grupo-input">
+              <label for="nombre">Nombre del Ave: (*)</label>
+              <input id="nombre" name="nombre" type="text">
+              <span class ="error" id="error-nombre"> Por favor ingrese el nombre del ave</span>
+            </div>
+
+            <div id="tipo-input" class="grupo-input">
+              <label for="filtro-tipo">Tipo de ave: (*)</label>
+              <select id="filtro-tipo">
+                <option value="">--Seleccione--</option>
+                <option value="paseriforme">Paseriforme</option>
+                <option value="psittaciforme">Psittaciforme</option>
+                <option value="anseriforme">Anseriforme</option>
+                <option value="falconiforme">Falconiforme</option>
+                <option value="galliforme">Galliforme</option>
+                <option value="otro">Otro</option>
+              </select>
+              <span class ="error" id="error-tipo"> Por favor seleccione un tipo de ave</span>
+            </div>
+
+            <div id="region-input" class="grupo-input">
+              <label for="region">Región (*)</label>
+              <select id="region" name="region">
+                <option value="">-- Seleccione --</option>
+              </select>
+              <span class ="error" id="error-region"> Por favor seleccione una región</span>
+            </div>
+
+            <div id="comuna-input" class="grupo-input">
+              <label for="comuna">Comuna (*)</label>
+              <select id="comuna" name="comuna">
+                <option value="">-- Seleccione--</option>
+              </select>
+              <span class ="error" id="error-comuna"> Por favor seleccione una comuna</span>
+            </div>
+
+            <div id="lugar-input" class="grupo-input">
+              <label for="lugar">Lugar del Avistamiento (sector/barrio): (*)</label>
+              <input id="lugar" name="lugar" type="text">
+              <span class ="error" id="error-lugar"> Por favor ingrese el lugar del avistamiento</span>
+            </div>
+
+            <div id="fecha-input" class="grupo-input">
+              <label for="fecha">Fecha del Avistamiento: (*)</label>
+              <input id="fecha" name="fecha" type="datetime-local">
+              <span class ="error" id="error-fecha"> Por favor ingrese la fecha del avistamiento</span>
+            </div>
+
+            <div id="fotos" class="grupo-input">
+              <label for="foto1">Foto(s) (*):</label>
+              <input type="file" name="foto1" id="foto1" accept="image/*,video/*">
+              <input type="file" name="foto2" id="foto2" accept="image/*,video/*" hidden>
+              <input type="file" name="foto3" id="foto3" accept="image/*,video/*" hidden>
+              <input type="file" name="foto4" id="foto4" accept="image/*,video/*" hidden>
+              <input type="file" name="foto5" id="foto5" accept="image/*,video/*" hidden>
+              <span class ="error" id="error-fotos"> Por favor suba al menos una foto</span>
+            </div>
+
+            <div class="botones">
+              <button type="button" id="envio" onclick="validarForm()">Enviar registro</button>
+            </div>
+          </form>
+
+          <div id="mensaje-exito">
+            <div class="bird-container">
+              <img id="img" src="data:," width="200" height="200" alt="Ave">
+              <p id="nombre-ave"></p>
+            </div>
+            <p id="res-desc"></p>
+          </div>
+      </div>
+    </main>
+    <script src="../js/formulario.js"></script>
+  </body>
+  </html>

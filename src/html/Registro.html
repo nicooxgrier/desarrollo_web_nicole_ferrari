@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Registro de Voluntarios</title>
+    <link rel="stylesheet"  type="text/css" href="../css/style.css">
+  </head>
+  <body>
+    <div class="container">
+        <p id="bajada">¡Hola! Registrate para comenzar:</p>
+
+      <form class="formulario" id="form-registro">
+        <h3>Datos del voluntario</h3>
+
+        <div id="nombre-input" class="grupo-input">
+          <label for="nombre">Nombre Completo:</label>
+          <input id="nombre" name="nombre" type="text">
+          <span id="error-nombre" class="error">Por favor ingresa tu nombre completo.</span>
+        </div>
+
+        <div id="usuario-input" class="grupo-input">
+          <label for="usuario">Usuario:</label>
+          <input id="usuario" name="usuario" type="text">
+          <span id="error-usuario" class="error">Por favor ingresa un nombre de usuario.</span>
+        </div>
+        <div id="numero-input" class="grupo-input">
+          <label for="numero">Número (+56)</label>
+          <input id="numero" name="numero" type="tel" placeholder="9 11111111">
+          <span id="error-numero" class="error">Por favor ingresa un número de teléfono válido.</span>
+        </div>
+        <div id="email-input" class="grupo-input">
+          <label for="email">Correo Electrónico:</label>
+          <input id="email" name="email" type="email">
+          <span id="error-email" class="error">Por favor ingresa un correo electrónico válido.</span>
+        </div>
+        <div id="region-input" class="grupo-input">
+          <label for="region">Región:</label>
+          <select id="region" name="region">
+            <option value="">-- Seleccione --</option>
+          </select>
+          <span id="error-region" class="error">Por favor selecciona una región.</span>
+        </div>
+        <div id="comuna-input" class="grupo-input">
+          <label for="comuna">Comuna:</label>
+          <select id="comuna" name="comuna">
+            <option value="">-- Seleccione--</option>
+          </select>
+          <span id="error-comuna" class="error">Por favor selecciona una comuna.</span>
+        </div>
+        <div class="botones">
+          <button type="submit" id="envio">
+            Registrarse
+          </button>
+        </div>
+      </form>
+    </div>
+    <script src="../js/registro.js"></script>
+  </body>
+</html>
