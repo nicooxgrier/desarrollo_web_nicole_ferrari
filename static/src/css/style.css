@@ -1,0 +1,289 @@
+/* ===================================================
+   VARIABLES Y CONFIGURACIÓN GENERAL
+   =================================================== */
+:root {
+  --color-primario: #2d5a27;       /* Verde bosque */
+  --color-primario-hover: #1f3f1b;
+  --color-acento: #4f7942;         /* Verde salvia */
+  --color-fondo: #f8faf7;          /* Blanco roto / natural */
+  --color-superficie: #ffffff;
+  --color-texto: #2b2d2f;
+  --color-texto-suave: #5a6065;
+  --color-borde: #dcded9;
+  --color-error: #d32f2f;          /* Rojo accesible para validaciones */
+  --fuente-principal: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --radio-borde: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fuente-principal);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+  padding-bottom: 50px;
+}
+
+/* ===================================================
+   ENCABEZADO Y NAVBAR
+   =================================================== */
+.navbar, header.navbar {
+  background-color: var(--color-primario);
+  color: #ffffff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--sombra-suave);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.navbar h1, header.navbar h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.navbar a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radio-borde);
+  transition: background-color 0.2s ease;
+}
+
+.navbar a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+#logout-btn {
+  background-color: #8b3a3a;
+  border-radius: var(--radio-borde);
+}
+
+#logout-btn:hover {
+  background-color: #a84343;
+}
+
+/* ===================================================
+   CONTENEDORES, TÍTULOS Y TEXTOS
+   =================================================== */
+.container {
+  max-width: 1000px;
+  margin: 1.5rem auto 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+h2 {
+  max-width: 1000px;
+  margin: 2rem auto 0.5rem auto;
+  padding: 0 1.5rem;
+  font-size: 1.6rem;
+  color: var(--color-primario);
+}
+
+p {
+  color: var(--color-texto-suave);
+}
+
+.container > p {
+  background-color: #edf3eb;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radio-borde);
+  border-left: 4px solid var(--color-acento);
+  width: 100%;
+}
+
+/* ===================================================
+   BOTONES E INPUTS
+   =================================================== */
+button {
+  background-color: var(--color-primario);
+  color: #ffffff;
+  border: none;
+  padding: 0.65rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radio-borde);
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: var(--color-primario-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+select, input[type="text"], input[type="datetime-local"], input[type="file"] {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+select:focus, input:focus {
+  border-color: var(--color-acento);
+}
+
+.barra-herramientas {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===================================================
+   MENSAJES DE ERROR
+   =================================================== */
+/* Por defecto están ocultos */
+[id^="error-"] {
+  display: none;
+  color: var(--color-error);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* Al agregar la clase 'visible' desde JS, se muestran en rojo */
+.visible {
+  display: block !important;
+  color: var(--color-error) !important;
+}
+
+/* ===================================================
+   TABLA DE AVISTAMIENTOS (Listado.html)
+   =================================================== */
+.tabla {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-superficie);
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+thead {
+  background-color: var(--color-primario);
+  color: #ffffff;
+}
+
+th, td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+  vertical-align: middle;
+}
+
+th {
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr:hover {
+  background-color: #f1f6ef;
+}
+
+tbody tr td img {
+  border-radius: 6px;
+  object-fit: cover;
+  box-shadow: var(--sombra-suave);
+  display: block;
+}
+
+/* Paginación */
+.contenedor-paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+#info-pagina {
+  font-weight: 600;
+  color: var(--color-texto-suave);
+}
+
+/* ===================================================
+   ESTADÍSTICAS (Estadisticas.html)
+   =================================================== */
+.statistics {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2rem;
+}
+
+.statistics section {
+  background-color: var(--color-superficie);
+  padding: 1.5rem;
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  text-align: center;
+  border: 1px solid var(--color-borde);
+}
+
+.statistics h3 {
+  color: var(--color-primario);
+  margin-bottom: 1.2rem;
+  font-size: 1.15rem;
+}
+
+.statistics img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+#mensaje-exito {
+  display: none;
+  margin-top: 1.5rem;
+}
+
+/* ===================================================
+   RESPONSIVE (PANTALLAS PEQUEÑAS)
+   =================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

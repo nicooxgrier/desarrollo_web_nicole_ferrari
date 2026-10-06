@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Listado de Avistamientos</title>
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+  </head>
+  <body>
+    <div class="navbar">
+      <h1>Unión de Ornitólogos de Chile</h1>
+      <a class="navbar-page" href="../html/Interfaz.html">Inicio</a>
+      <a id="logout-btn" href="#logout">Cerrar Sesión</a>
+    </div>
+    <div class="container">
+      <button id="add-btn">Agregar Avistamiento</button>
+      <button id="stats-btn">Ver Estadísticas</button>
+    </div>
+    <div class="container">
+      <p>Estos son los avistamientos reportados.<br>
+        Puedes filtrar por tipo de ave y lugar de avistamiento para ver los avistamientos de tu zona.
+      </p>
+    </div>
+    <div class="barra-herramientas">
+    <div class="container">
+      <label for="filtro-tipo">Filtrar por tipo:</label>
+      <select id="filtro-tipo" name="filtro-tipo">
+        <option value="">Todos</option>
+        <option value="paseriforme">Paseriforme</option>
+        <option value="psittaciforme">Psittaciforme</option>
+        <option value="anseriforme">Anseriforme</option>
+        <option value="falconiforme">Falconiforme</option>
+        <option value="galliforme">Galliforme</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+    </div>
+    <div class="container">
+      <label for="orden-tipo">Ordenar por:</label>
+      <select id="orden-tipo" name="orden-tipo">
+        <option value="">Ninguno</option>
+        <option value="fecha-decr">Fecha: Más reciente</option>
+        <option value="fecha-crec">Fecha: Más antigua</option>
+        <option value="lugar-decr">Lugar: A-Z</option>
+        <option value="lugar-crec">Lugar: Z-A</option>
+      </select>
+    </div>
+    <div class="tabla" id="tabla-interactiva">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha de publicación</th>
+            <th>Región</th>
+            <th>Comuna</th>
+            <th>Tipo</th>
+            <th>Nombre <br> Contacto</th>
+            <th>Foto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2026-01-28<br> 17:33</td>
+            <td>Metropolitana</td>
+            <td>Providencia</td>
+            <td>Paseriforme</td>
+            <td>Dolly Parton<br>Tel: +569 11111111</td>
+            <td><img src="../../img/paseriforme.jfif" alt="paseriforme" width="200"></td>
+          </tr>
+          <tr>
+            <td>2026-03-20 <br>06:31</td>
+            <td>Los Rios</td>
+            <td>Valdivia</td>
+            <td>Psittaciforme</td>
+            <td>Daddy Yankee<br>Tel: +569 22222222</td>
+            <td><img src="../../img/psittaciforme.jfif" alt="psittaciforme" width="200"></td>
+          </tr>
+          <tr>
+            <td>2026-04-15 <br> 12:23</td>
+            <td>Biobío</td>
+            <td>Concepción</td>
+            <td>Anseriforme</td>
+            <td>Shakira<br>Tel: +569 33333333</td>
+            <td><img src="../../img/anseriforme.jfif" alt="anseriforme" width="200"></td>
+          </tr>
+          <tr>
+            <td>2026-04-15 <br> 19:45</td>
+            <td>Valparaíso</td>
+            <td>Viña del Mar</td>
+            <td>Falconiforme</td>
+            <td>Michael Jackson<br>Tel: +569 44444444</td>
+            <td><img src="../../img/falconiforme.jfif" alt="falconiforme" width="200"></td>
+          </tr>
+        </tbody>
+      </table>
+      <nav aria-label="Navegación de páginas" class="contenedor-paginacion">
+        <button type="button" id="btn-prev">Anterior</button>
+        <span id="info-pagina">Página 1 de 1</span>
+        <button type="button" id="btn-next">Siguiente</button>
+      </nav>
+    </div>
+<script src="../js/listado.js"></script>
+</body>
+</html>
