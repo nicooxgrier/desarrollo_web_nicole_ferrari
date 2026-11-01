@@ -11,31 +11,32 @@
     <body>
         <header class="navbar">
             <h1>Unión de Ornitólogos de Chile</h1>
-            <a class="navbar-page" href="#home">Inicio</a>
+            <a class="navbar-page" href="/">Inicio</a>
             <a id="logout-btn" href="#logout">Cerrar Sesión</a><br>
         </header>
     <nav class="navbar">
-        <button id="add-btn">Reportar Avistamiento</button>
-        <button id="list-bird-btn">Ver Listado</button>
-        <button id="stats-btn">Ver Estadísticas</button>
+        <a href="/avistamiento/nuevo" class="boton-enlace">Reportar Avistamiento</a>
+        <a href="/listado" class="boton-enlace">Ver Listado</a>
+        <a href="/estadisticas" class="boton-enlace">Ver Estadísticas</a>
     </nav>
     <main id="bird-list">
         <h2>Avistamientos recientes</h2>
+        {% for av in ultimos_av %}
         <div class="bird-container">
             <div class="bird-author">
-                <img src="../../img/ave1.jpg" alt="Picaflor de Juan Fernandez" width="200" height="200">
-                <p>@avesdechile5</p>
+                {% if av.registros  and av.registros|length > 0 %}
+                <img src="{{url_for('static', filename=av.registros[0].ruta_archivo)}}" alt="{{ av.nombre_ave }}" width="200" height="200">
+                {% else %}
+                <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Ave" width="200" height="200">
+                {% endif %}
+                <p>@{{ av.voluntario.nombre if av.voluntario else 'Anónimo' }}</p>
             </div>
-            <p>Los machos son de color rojizo oscuro y plumas doradas en su cabeza, mientras que las hembras son de color blanco moteado de pequeñas zonas verdes y negras, con una corona de azul iridiscente, y por arriba es azul y verde.</p>
+            <p><strong>{{ av.nombre_ave }}</strong> ({{ av.tipo_ave }}) visto en {{ av.sector }}, el {{ av.fecha_hora.strftime('%d-%m-%Y %H:%M') }}.</p>
         </div>
-        <div class="bird-container">
-            <div class="bird-author">
-                <img src="../../img/ave2.jfif" alt="Picaflor de Arica" width="200" height="200">
-                <p>Luis Felipe IG: @avifauna_chilena</p>
-            </div>
-            <p>La cercanía con los ecosistemas fronterizos del norte, además de la posición geográfica dentro de la ruta migratoria de especies del hemisferio norte, hacen de la zona de Arica y el altiplano un destino obligatorio para todos los fanáticos del  birdwatching. Aquí verás al bello y llamativo colibrí o picaflor de Arica (Eulidia yarrellii).</p>
-        </div>
-    </main>
-    <script src="../js/interfaz.js"></script>
+        {% else %}
+        <p>No hay avistamientos recientes registrados.</p>
+        {% endfor %}
+</main>
+<script src="{{ url_for('static', filename='src/js/interfaz.js') }}"></script>
 </body>
 </html>

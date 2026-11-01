@@ -3,47 +3,49 @@
   <head>
     <meta charset="utf-8">
     <title>Listado de Avistamientos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='src/css/style.css')}}">
   </head>
   <body>
-    <div class="navbar">
+    <header class="navbar">
       <h1>Unión de Ornitólogos de Chile</h1>
-      <a class="navbar-page" href="../html/Interfaz.html">Inicio</a>
-      <a id="logout-btn" href="#logout">Cerrar Sesión</a>
-    </div>
+      <a class="navbar-page" href="{{url_for('index')}}">Inicio</a>
+      <a id="logout-btn" href="{{url_for('registrar_voluntario')}}">Cerrar Sesión</a>
+    </header>
+
     <div class="container">
-      <button id="add-btn">Agregar Avistamiento</button>
-      <button id="stats-btn">Ver Estadísticas</button>
+      <nav class="navbar">
+        <a class="btn" id="list-bird-btn" href="{{url_for('registrar_avistamiento')}}">Agregar Avistamiento</a>
+        <a class="btn" id="stats-btn" href="{{url_for('estadisticas')}}">Ver Estadísticas</a>
+      </nav>
     </div>
-    <div class="container">
-      <p>Estos son los avistamientos reportados.<br>
-        Puedes filtrar por tipo de ave y lugar de avistamiento para ver los avistamientos de tu zona.
-      </p>
-    </div>
-    <div class="barra-herramientas">
-    <div class="container">
-      <label for="filtro-tipo">Filtrar por tipo:</label>
-      <select id="filtro-tipo" name="filtro-tipo">
-        <option value="">Todos</option>
-        <option value="paseriforme">Paseriforme</option>
-        <option value="psittaciforme">Psittaciforme</option>
-        <option value="anseriforme">Anseriforme</option>
-        <option value="falconiforme">Falconiforme</option>
-        <option value="galliforme">Galliforme</option>
-        <option value="otro">Otro</option>
-      </select>
-    </div>
-    </div>
+
+    <main>
+      <h2>Listado de Avistamientos</h2>
+      <form method="GET" action="{{url_for('listado')}}">
+        <div class="barra-herramientas">
+          <div class="container">
+            <label for="filtro-tipo">Filtrar por tipo:</label>
+            <select id="filtro-tipo" name="filtro-tipo">
+              <option value="">Todos</option>
+              {%for ave in tipos_ave %}
+              <option value="{{ave.nombre}}" {% if filtro_actual == ave.nombre %}selected {% endif %}>
+                {{ ave.nombre }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
     <div class="container">
       <label for="orden-tipo">Ordenar por:</label>
-      <select id="orden-tipo" name="orden-tipo">
+      <select id="orden-tipo" name="orden-tipo" onchange="this.form.submit()">
         <option value="">Ninguno</option>
-        <option value="fecha-decr">Fecha: Más reciente</option>
-        <option value="fecha-crec">Fecha: Más antigua</option>
-        <option value="lugar-decr">Lugar: A-Z</option>
-        <option value="lugar-crec">Lugar: Z-A</option>
+        <option value="fecha-decr" {% if orden_actual == 'fecha-decr' %}selected{% endif %}>Fecha (más reciente primero)</option>
+        <option value="fecha-crec" {% if orden_actual == 'fecha-crec' %}selected{% endif %}>Fecha (más antigua primero)</option>
+        <option value="lugar-crec" {% if orden_actual == 'lugar-crec' %}selected{% endif %}>Lugar (A-Z)</option>
+        <option value="lugar-decr" {% if orden_actual == 'lugar-decr' %}selected{% endif %}>Lugar (Z-A)</option>
       </select>
     </div>
+  </form>
     <div class="tabla" id="tabla-interactiva">
       <table>
         <thead>
@@ -57,46 +59,39 @@
           </tr>
         </thead>
         <tbody>
+          {% for av in avistamientos %}
           <tr>
-            <td>2026-01-28<br> 17:33</td>
-            <td>Metropolitana</td>
-            <td>Providencia</td>
-            <td>Paseriforme</td>
-            <td>Dolly Parton<br>Tel: +569 11111111</td>
-            <td><img src="../../img/paseriforme.jfif" alt="paseriforme" width="200"></td>
+            <td>{{ av.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ av.voluntario.comuna.region.nombre }}</td>
+            <td>{{ av.voluntario.comuna.nombre}}</td>
+            <td>{{ av.ave.nombre }}</td>
+            <td>{{ av.voluntario.nombre }}</td>
+            <td>
+              {% if av.registros and av.registros|length > 0 %}
+              <img src="{{url_for('static', filename=av.registros[0].ruta_archivo)}}" alt="{{av.ave.nombre}}" width="100" height="100">
+              {% else %}
+              <img src="{{url_for('static', filename='img/ave1.jpg')}}" alt="{{av.ave.nombre}}" width="100" height="100">
+              {% endif %}
+            </td>
           </tr>
-          <tr>
-            <td>2026-03-20 <br>06:31</td>
-            <td>Los Rios</td>
-            <td>Valdivia</td>
-            <td>Psittaciforme</td>
-            <td>Daddy Yankee<br>Tel: +569 22222222</td>
-            <td><img src="../../img/psittaciforme.jfif" alt="psittaciforme" width="200"></td>
-          </tr>
-          <tr>
-            <td>2026-04-15 <br> 12:23</td>
-            <td>Biobío</td>
-            <td>Concepción</td>
-            <td>Anseriforme</td>
-            <td>Shakira<br>Tel: +569 33333333</td>
-            <td><img src="../../img/anseriforme.jfif" alt="anseriforme" width="200"></td>
-          </tr>
-          <tr>
-            <td>2026-04-15 <br> 19:45</td>
-            <td>Valparaíso</td>
-            <td>Viña del Mar</td>
-            <td>Falconiforme</td>
-            <td>Michael Jackson<br>Tel: +569 44444444</td>
-            <td><img src="../../img/falconiforme.jfif" alt="falconiforme" width="200"></td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
       <nav aria-label="Navegación de páginas" class="contenedor-paginacion">
-        <button type="button" id="btn-prev">Anterior</button>
-        <span id="info-pagina">Página 1 de 1</span>
-        <button type="button" id="btn-next">Siguiente</button>
+        {%if page > 1 %}
+        <a href="{{ url_for('listado', page=page+1, **{filtro_tipo:filtro_actual, orden_tipo:orden_actual}) }}" id="btn-prev">Anterior</a>
+        {%else%}
+        <span id="btn-prev" style="visibility: hidden;">Anterior</span>
+        {%endif%}
+        <span id="info-pagina">Página {{ page }} de {{ total_pages }}</span>
+        {%if page < total_pages %}
+        <a href="{{ url_for('listado', page=page+1, **{filtro_tipo:filtro_actual, orden_tipo:orden_actual}) }}" id="btn-next">Siguiente</a>
+        {%else%}
+        <span id="btn-next" style="visibility: hidden;">Siguiente</span>
+        {%endif%}
       </nav>
     </div>
-<script src="../js/listado.js"></script>
+  </main>
+<script src="{{ url_for('static', filename='js/listado.js') }}"></script>
 </body>
 </html>

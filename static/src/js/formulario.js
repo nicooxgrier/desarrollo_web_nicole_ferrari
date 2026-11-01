@@ -1,21 +1,37 @@
-const regionesComunas = {
-  "Metropolitana": ["Santiago", "Providencia", "Las Condes", "Maipú"],
-  "Valparaíso": ["Valparaiso", "Viña del Mar", "Concón", "Quilpué"],
-  "Biobio": ["Concepción", "Talcahuano", "San Pedro de la Paz"],
-  "Los Rios": ["Valdivia", "Corral", "La Unión"]
-};
-
 let selectRegion = document.getElementById("region");
 let selectComuna = document.getElementById("comuna");
 
-if (selectRegion && selectComuna){
-  Object.keys(regionesComunas).forEach((region) => {
-    let opcion = document.createElement("option");
-    opcion.value = region;
-    opcion.innerText = region; 
-    selectRegion.appendChild(opcion);
-  });
+if (selectRegion && selectComuna) {
+  selectRegion.addEventListener("change", async () => {
+    let regionId = selectRegion.value;
 
+    // Limpiar comunas anteriores
+    while (selectComuna.firstChild) {
+      selectComuna.removeChild(selectComuna.firstChild);
+    }
+    
+    let opcionDefault = document.createElement("option");
+    opcionDefault.value = "";
+    opcionDefault.innerText = "-- Seleccione --";
+    selectComuna.appendChild(opcionDefault);
+
+    if (regionId) {
+      try {
+        const respuesta = await fetch(`/api/comunas/${regionId}`);
+        const comunas = data = await respuesta.json();
+
+        comunas.forEach((comuna) => {
+          let opcion = document.createElement("option");
+          opcion.value = comuna.id;     // ID real de la comuna en la BD
+          opcion.innerText = comuna.nombre; // Nombre real de la comuna
+          selectComuna.appendChild(opcion);
+        });
+      } catch (error) {
+        console.error("Error al obtener las comunas:", error);
+      }
+    }
+  });
+}
 
   const logoutButton = document.getElementById("logout-btn");
   const ListButton = document.getElementById("list-bird-btn");
@@ -62,7 +78,6 @@ if (selectRegion && selectComuna){
       });
     }
   });
-}
 
 const foto1 = document.getElementById("foto1");
 const foto2 = document.getElementById("foto2");
@@ -168,8 +183,32 @@ if(!validadorArchivos()){
     document.getElementById("error-fotos").classList.remove("visible");
   }
 
+
 if (isValid){
-  alert("Formulario enviado correctamente");
-  window.location.href = "../html/Interfaz.html";
+  const archivo = foto1.files[0];
+  const lector = new FileReader();
+  lector.onload = function(e) {
+    const nuevoAvistamiento = {
+      nombre: valnombre,
+      tipo: valtipo,
+      lugar: vallugar,
+      comuna: valcomuna,
+      region: valregion,
+      fecha: valfecha,
+      foto: e.target.result
+    };
+    const lista = JSON.parse(sessionStorage.getItem("avistamientos")) || [];
+    lista.unshift(nuevoAvistamiento);
+    sessionStorage.setItem("avistamientos", JSON.stringify(lista));
+    
+    alert("Avistamiento registrado exitosamente.");
+    window.location.href = "Interfaz.html";
+  };
+
+  if (archivo) {
+    lector.readAsDataURL(archivo);
+  } else {
+    window.location.href = "Interfaz.html";
+  }
 }
 }

@@ -18,7 +18,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 
-# --- Routes ---
 @app.route("/", methods=["GET"])
 def index():
     ultimos_av =db.ultimos_avistamientos(limit=2)
@@ -28,7 +27,10 @@ def index():
 
 @app.route("/voluntario/nuevo", methods=["GET","POST"])
 def registrar_voluntario():
+    voluntarios = db.get_voluntarios()
+    tipos_ave = db.get_aves()
     regiones = db.get_regiones()
+    comunas = db.get_todas_comunas()
     error = ""
 
     if request.method == "POST":
@@ -61,7 +63,7 @@ def registrar_voluntario():
         flash("Voluntario registrado exitosamente.")
         return redirect(url_for("index"))
 
-    return render_template("Registro.html", regiones=regiones)
+    return render_template("Registro.html", voluntarios=voluntarios, tipos_ave=tipos_ave,regiones=regiones, comunas=comunas)
 
 
 @app.route("/avistamiento/nuevo", methods=["GET", "POST"])

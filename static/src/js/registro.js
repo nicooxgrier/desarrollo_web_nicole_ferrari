@@ -1,22 +1,8 @@
-const regionesComunas = {
-  "Metropolitana": ["Santiago", "Providencia", "Las Condes", "Maipú"],
-  "Valparaíso": ["Valparaiso", "Viña del Mar", "Concón", "Quilpué"],
-  "Biobio": ["Concepción", "Talcahuano", "San Pedro de la Paz"],
-  "Los Rios": ["Valdivia", "Corral", "La Unión"]
-};
-
 let selectRegion = document.getElementById("region");
 let selectComuna = document.getElementById("comuna");
 
 if (selectRegion && selectComuna){
-  Object.keys(regionesComunas).forEach((region) => {
-    let opcion = document.createElement("option");
-    opcion.value = region;
-    opcion.innerText = region; 
-    selectRegion.appendChild(opcion);
-  });
-
-  selectRegion.addEventListener("change", () => {
+  selectRegion.addEventListener("change", async () => {
     let seleccion = selectRegion.value;
 
     while (selectComuna.firstChild){
@@ -28,14 +14,20 @@ if (selectRegion && selectComuna){
     opcionDefault.innerText = "--Seleccione--";
     selectComuna.appendChild(opcionDefault);
 
-    if (seleccion && regionesComunas[seleccion]){
-      regionesComunas[seleccion].forEach((comuna) =>{
+    if (seleccion){
+      try {
+        const respuesta = await fetch(`/api/comunas/${seleccion}`);
+        const comunas = await respuesta.json();
 
-        let opcion = document.createElement("option");
-        opcion.value = comuna;
-        opcion.innerText = comuna;
-        selectComuna.appendChild(opcion);
-      });
+        comunas.forEach((comuna) => {
+          let opcion = document.createElement("option");
+          opcion.value = comuna.id;
+          opcion.innerText = comuna.nombre;
+          selectComuna.appendChild(opcion);
+        });
+      } catch (error) {
+        console.error("Error al obtener las comunas:", error);
+      }
     }
   });
 }
@@ -102,7 +94,7 @@ const validadorSelect = (valor) => {
   return valor !== "";
 }; 
 const validarForm = (event) => {
-  event.preventDefault();
+
   const valnombre = document.getElementById("nombre").value;
   const valuser = document.getElementById("usuario").value;
   const valnumero = document.getElementById("numero").value;
@@ -150,8 +142,8 @@ const validarForm = (event) => {
     document.getElementById("error-comuna").classList.remove("visible");
   }
 
-    if (isValid){
-      window.location.href = "../html/Interfaz.html";
+    if (!isValid){
+      event.preventDefault();
     }
 };
 

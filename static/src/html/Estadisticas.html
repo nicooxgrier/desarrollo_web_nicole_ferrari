@@ -4,28 +4,30 @@
     <meta charset="utf-8">
     <title>Estadísticas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='src/css/style.css') }}">
-    <script> src = "https://code.highcharts.com/highcharts.js"</script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
   </head>
   <body>
     <header class="navbar">
         <h1>Unión de Ornitólogos de Chile</h1>
-        <a class="navbar-page" href="../html/Interfaz.html">Inicio</a>
-        <a id="logout-btn" href="#logout">Cerrar Sesión</a>
+        <a class="navbar-page" href="{{ url_for('index') }}">Inicio</a>
+        <a id="logout-btn" href="{{ url_for('logout') }}">Cerrar Sesión</a>
     </header>
     <div class="container">
       <nav class="navbar">
-        <button id="list-bird-btn">Ver Listado</button>
-        <button id="stats-btn">Ver Estadísticas</button>
-        <button id="add-btn">Reportar Avistamiento</button>
-      </nav>
+        <a href="{{ url_for('registrar_avistamiento') }}" class="boton-enlace">Reportar Avistamiento</a>
+        <a href="{{ url_for('listado') }}" class="boton-enlace">Ver Listado</a>
+        <a href="{{ url_for('estadisticas') }}" class="boton-enlace">Ver Estadísticas</a>
     </div>
+    <main class ="main-container">
     <h2>Estadísticas y métricas de Avistamientos</h2>
     <p>Resumen de registro de voluntarios y avistamientos de aves en Chile.</p>
-    <div id="stats-dias" style=" width:100%; height:350px;"></div>
-    <div id="stats-tipos" style="width: 100%; height: 350px;"></div>
-    <div id="stats-comunas" style="width: 100%; height: 350px;"></div>
+    <div id="chart-dias" style=" width:100%; height:350px;"></div>
+    <div id="chart-tipos" style="width: 100%; height: 350px;"></div>
+    <div id="chart-comunas" style="width: 100%; height: 350px;"></div>
     
-    <p><a href ="/"> Volver a la portada</a></p>
+    <p><a href = "{{ url_for('index') }}"> Volver a la portada</a></p>
+    </main>
+
     <script>
     const renderGraficoDias = (datos) => {
         Highcharts.chart('chart-dias', {

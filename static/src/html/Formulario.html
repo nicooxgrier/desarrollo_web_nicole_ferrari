@@ -3,28 +3,32 @@
   <head>
     <meta charset="utf-8">
     <title>¡Registra tu avistamiento!</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='src/css/style.css')}}">
   </head>
 
   <body>
     <header class="navbar">
         <h1>Unión de Ornitólogos de Chile</h1>
-        <a class="navbar-page" href="../html/Interfaz.html">Inicio</a>
-        <a id="logout-btn" href="../html/Registro.html">Cerrar Sesión</a>
+        <a class="navbar-page" href="{{url_for('index')}}">Inicio</a>
+        <a id="logout-btn" href="{{url_for('registrar_voluntario')}}">Cerrar Sesión</a>
     </header>
 
     <div class="container">
       <nav class="navbar">
-        <button id="list-bird-btn">Ver Listado</button>
-        <button id="stats-bird-btn">Ver Estadísticas</button>
+        <a id="list-bird-btn" href="{{url_for('listado')}}">Ver Listado</a>
+        <a id="stats-btn" href="{{url_for('estadisticas')}}">Ver Estadísticas</a>
       </nav>
     </div>
 
     <main class="main-container">
       <div class="vol-user">
           <h2>Registra tu avistamiento</h2>
-
-          <form class="formulario" id="form-avistamiento">
+          <form class="formulario" id="form-avistamiento" method="POST" action="{{url_for('registrar_avistamiento')}}" enctype="multipart/form-data">
+            <div id="voluntario-input" class="grupo-input">
+              <label for="voluntario-id">Voluntario: (*)</label>
+              <input id="voluntario" name="voluntario" type="text">
+              <span class="error" id="error-voluntario"> Por favor ingrese el nombre del voluntario.</span>
+            </div>
             <div id="nombre-input" class="grupo-input">
               <label for="nombre">Nombre del Ave: (*)</label>
               <input id="nombre" name="nombre" type="text">
@@ -33,14 +37,11 @@
 
             <div id="tipo-input" class="grupo-input">
               <label for="filtro-tipo">Tipo de ave: (*)</label>
-              <select id="filtro-tipo">
+              <select id="filtro-tipo" name="filtro-tipo">
                 <option value="">--Seleccione--</option>
-                <option value="paseriforme">Paseriforme</option>
-                <option value="psittaciforme">Psittaciforme</option>
-                <option value="anseriforme">Anseriforme</option>
-                <option value="falconiforme">Falconiforme</option>
-                <option value="galliforme">Galliforme</option>
-                <option value="otro">Otro</option>
+                {%for ave in tipos_ave%}
+                  <option value="{{ave.id}}">{{ave.nombre}}</option>
+                {%endfor%}
               </select>
               <span class ="error" id="error-tipo"> Por favor seleccione un tipo de ave</span>
             </div>
@@ -49,6 +50,9 @@
               <label for="region">Región (*)</label>
               <select id="region" name="region">
                 <option value="">-- Seleccione --</option>
+                {% for region in regiones %}
+                <option value="{{ region.id }}">{{region.nombre}}</option>
+                {% endfor %}
               </select>
               <span class ="error" id="error-region"> Por favor seleccione una región</span>
             </div>
@@ -84,7 +88,7 @@
             </div>
 
             <div class="botones">
-              <button type="button" id="envio" onclick="validarForm()">Enviar registro</button>
+              <button type="submit" id="envio">Enviar registro</button>
             </div>
           </form>
 
@@ -97,6 +101,6 @@
           </div>
       </div>
     </main>
-    <script src="../js/formulario.js"></script>
+    <script src="{{url_for('static', filename='src/js/formulario.js')}}"></script>
   </body>
   </html>
