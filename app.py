@@ -8,9 +8,9 @@ import db
 
 
 
-UPLOAD_FOLDER = '../static/uploads'
+UPLOAD_FOLDER = 'static/uploads'
 
-app = Flask(__name__,  template_folder="../static/src/html", static_folder="../static",)
+app = Flask(__name__,  template_folder="static/src/html", static_folder="static")
 
 
 app.secret_key = "s3cr3t_k3y"
@@ -187,7 +187,7 @@ def api_tipos():
     return jsonify(db.get_stats_tipos())
 
 @app.route("/api/stats-comunas", methods=["GET"])
-def api_comunas():
+def api_stats_comunas():
     return jsonify(db.get_stats_comunas())
 
 

@@ -16,7 +16,7 @@ SessionLocal = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
-# --- Models ---
+
 
 class Region(Base):
     __tablename__ = 'region'
@@ -83,7 +83,7 @@ class Registro(Base):
 
     avistamiento = relationship("Avistamiento", back_populates="registros")
 
-# --- Database Functions ---
+
 def get_regiones():
     with SessionLocal() as session:
         return session.query(Region).order_by(Region.id).all()
