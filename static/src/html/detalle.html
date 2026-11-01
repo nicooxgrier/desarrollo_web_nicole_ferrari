@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Detalle Avistamiento</title>
+</head>
+<body style="font-family: sans-serif; margin: 20px;">
+    <h2>{{ avistamiento.ave.nombre }}</h2>
+    <p>Lugar: {{ avistamiento.lugar }} | Fecha: {{ avistamiento.fecha_hora }}</p>
+    <div>
+        {% for reg in avistamiento.registros %}
+        {% if reg.nombre_archivo.lower().endswith(('.mp4', '.mov')) %}
+            <video width="220" controls src="{{url_for('static', filename=reg.ruta_archivo) }}"></video>
+        {% else %}
+            <img width="200" src="{{url_for('static', filename=reg.ruta_archivo)}}" alt="Foto">
+            {% endif %}
+            {% endfor %}
+    </div>
+
+<h3>Comentarios</h3>
+<div id="lista">Cargando...</div>
+<p id="err" style="color: red;"></p>
+
+<form id="form">
+    <input type="text" id="nom" placeholder="Nombre (3 a 50)" minlength="3" maxlength="50" required><br><br>
+    <textarea id="txt" rows="3" cols="40" placeholder="Comentario (mín 5)" required></textarea><br><br>
+    <button type="submit">Agregar comentario</button>
+</form>
+<p><a href="/listado">Volver al listado</a></p>
+
+<script>
+    const id = Number("{{ avistamiento.id }}");
+    const lista = document.getElementById("lista");
+
+    const addBox = c => {
+        const p = document.createElement("p");
+        const strong = document.createElement("strong");
+        strong.textContent = `${c.nombre} (${c.fecha}): `;
+        const span = document.createElement("span");
+        span.textContent = c.texto;
+        p.appendChild(strong);
+        p.appendChild(span);
+        lista.appendChild(p);
+    };
+
+    fetch(`/api/avistamiento/${id}/comentarios`)
+    .then(r => r.json())
+    .then(data => {
+        lista.innerHTML = data.length ? "" : "No hay comentarios.";
+        data.forEach(addBox);
+    });
+
+document.getElementById("form").onsubmit = e => {
+    e.preventDefault();
+    document.getElementById("err").textContent = "";
+    const nombre = document.getElementById("nom").value.trim();
+    const texto = document.getElementById("txt").value.trim();
+    
+    if (nombre.length < 3 || texto.length < 5) {
+        document.getElementById("err").textContent = "Nombre (3 a 50) y texto (mín 5 carac.)";
+        return;
+    }
+
+    fetch(`/api/avistamiento/${id}/comentarios`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nombre, texto })
+    })
+    .then(async r => {
+        const res = await r.json();
+        if (!r.ok) throw new Error(res.error ||"Error al enviar");
+        return res; 
+    })
+    .then(c => {
+        if (lista.textContent.includes("No hay")) lista.innerHTML = "";
+        addBox(c);
+        document.getElementById("form").reset();
+    })
+    .catch(err => {
+        document.getElementById("err").textContent = err.message;
+    });
+};
+</script>
+</body>
+</html>

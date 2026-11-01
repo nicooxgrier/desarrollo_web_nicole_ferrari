@@ -189,3 +189,46 @@ def get_estadisticas():
             "total_avistamientos": total_avistamientos,
             "total_voluntarios": total_voluntarios,
         }
+
+class Comentario(Base):
+    __tablename__ = 'comentario'
+    id = Column(Integer, primary_key= True, autoincrement = True)
+    nombre = Column(String(80), nullable = False)
+    texto = Column(String(300), nullable = False)
+    fecha = Column(DateTime, default = datetime.now)
+    avistamiento_id= Column(Integer, ForeignKey('avistamiento.id'), nullable=False)
+
+def get_comentarios(av_id):
+    s = SessionLocal()
+    coms = s.query(Comentario).filter_by(avistamiento_id=av_id).order_by(Comentario.fecha.asc()).all()
+    res = [{"nombre": c.nombre, "texto":c.texto, "fecha": str(c.fecha)} for c in coms]
+    s.close()
+    return res
+
+def add_comentario(av_id, nombre, texto):
+    s = SessionLocal()
+    nuevo = Comentario(nombre=nombre, texto=texto, avistamiento_id=av_id, fecha=datetime.now())
+    s.add(nuevo)
+    s.commit()
+    s.refresh(nuevo)
+    res = {"nombre": nuevo.nombre, "texto": nuevo.texto, "fecha": str(nuevo.fecha)}
+    s.close()
+    return res
+
+def get_stats_dias():
+    s = SessionLocal()
+    res = s.query(func.date(Avistamiento.fecha_hora), func.count(Avistamiento.id)).group_by(func.date(Avistamiento.fecha_hora)).all()
+    s.close()
+    return [{"dia": str(r[0]), "total":r[1]} for r in res]
+
+def get_stats_tipos():
+    s = SessionLocal()
+    res = s.query(Ave.nombre, func.count(Avistamiento.id)).join(Avistamiento, Avistamiento.ave_id == Ave.id).group_by(Ave.nombre).all()
+    s.close()
+    return [{"tipo": str(r[0]), "total":r[1]} for r in res]
+
+def get_stats_comunas():
+    s = SessionLocal()
+    res = s.query(Comuna.nombre, func.count(Voluntario.id)).join(Voluntario, Voluntario.comuna_id == Comuna.id).group_by(Comuna.nombre).all()
+    s.close()
+    return [{"comuna": str(r[0]), "total": r[1]} for r in res]

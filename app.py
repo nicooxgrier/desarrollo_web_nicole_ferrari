@@ -167,16 +167,44 @@ def logout():
     session.clear()
     return redirect(url_for("index"))
 
-@app.route("/estadisticas", methods=["GET"])
-def estadisticas():
-    stats= db.get_estadisticas()
-    return render_template("Estadisticas.html", stats=stats)
-
 
 @app.route("/api/comunas/<int:region_id>")
 def api_comunas(region_id):
     comunas = db.get_comunas_by_region(region_id)
     return jsonify(comunas)
+
+
+@app.route("/estadisticas", methods=["GET"])
+def estadisticas():
+    return render_template("Estadisticas.html")
+
+@app.route("/api/stats-dias", methods=["GET"])
+def api_dias():
+    return jsonify(db.get_stats_dias())
+
+@app.route("/api/stats-tipos", methods=["GET"])
+def api_tipos():
+    return jsonify(db.get_stats_tipos())
+
+@app.route("/api/stats-comunas", methods=["GET"])
+def api_comunas():
+    return jsonify(db.get_stats_comunas())
+
+
+@app.route("/api/avistamiento/<int:id>/comentarios", methods=["GET", "POST"])
+def comentarios_api(id):
+    if request.method == "POST":
+        data = request.get_json(silent= True) or request.form
+        nombre = data.get("nombre", "").strip()
+        texto = data.get("texto", "").strip()
+
+        if not(3 <=len(nombre) <=50) or len(texto) < 5:
+            return jsonify({"error":"Nombre (3 a 50 caracteres) y comentario (al menos 5 caracteres)."}), 400
+
+        nuevo=db.add_comentario(id, nombre, texto)
+        return jsonify(nuevo), 201
+
+    return jsonify(db.get_comentarios(id))
 
 
 if __name__ == "__main__":
