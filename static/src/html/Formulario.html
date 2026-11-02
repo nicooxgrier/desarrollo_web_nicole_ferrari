@@ -26,7 +26,7 @@
           <form class="formulario" id="form-avistamiento" method="POST" action="{{url_for('registrar_avistamiento')}}" enctype="multipart/form-data">
             <div id="voluntario-input" class="grupo-input">
               <label for="voluntario-id">Voluntario: (*)</label>
-              <input id="voluntario" name="voluntario" type="text">
+              <input id="voluntario" name="voluntario" type="text" action="/avistamiento/nuevo" method="POST" enctype="multipart/form-data">>
               <span class="error" id="error-voluntario"> Por favor ingrese el nombre del voluntario.</span>
             </div>
             <div id="nombre-input" class="grupo-input">

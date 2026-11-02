@@ -60,7 +60,7 @@
         </thead>
         <tbody>
           {% for av in avistamientos %}
-          <tr>
+          <tr onclick="window.location.href='{{ url_for('detalle_avistamiento', avistamiento_id=av.id) }}'">
             <td>{{ av.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
             <td>{{ av.voluntario.comuna.region.nombre }}</td>
             <td>{{ av.voluntario.comuna.nombre}}</td>

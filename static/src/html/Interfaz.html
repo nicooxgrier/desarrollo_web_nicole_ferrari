@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <title>Unión de Ornitólogos de Chile</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='src/css/style.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='src/css/style.css')}}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Roboto&display=swap" rel="stylesheet">
@@ -25,10 +25,8 @@
         <div class="bird-container">
             <div class="bird-author">
                 {% if av.registros  and av.registros|length > 0 %}
-                <img src="{{url_for('static', filename=av.registros[0].ruta_archivo)}}" alt="{{ av.nombre_ave }}" width="200" height="200">
-                {% else %}
-                <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Ave" width="200" height="200">
-                {% endif %}
+                <img src="{{url_for('static', filename=av.registros|first|attr('ruta_archivo'))}}" alt="Foto del ave" width="200" height="200">                {% else %}
+                <img src="{{url_for('static', filename='img/ave1.jpg')}}" alt="Ave" width="200" height="200">                {% endif %}
                 <p>@{{ av.voluntario.nombre if av.voluntario else 'Anónimo' }}</p>
             </div>
             <p><strong>{{ av.nombre_ave }}</strong> ({{ av.tipo_ave }}) visto en {{ av.sector }}, el {{ av.fecha_hora.strftime('%d-%m-%Y %H:%M') }}.</p>
@@ -37,6 +35,6 @@
         <p>No hay avistamientos recientes registrados.</p>
         {% endfor %}
 </main>
-<script src="{{ url_for('static', filename='src/js/interfaz.js') }}"></script>
+<script src="{{url_for('static', filename='src/js/interfaz.js')}}"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ app = Flask(__name__,  template_folder="static/src/html", static_folder="static"
 
 
 app.secret_key = "s3cr3t_k3y"
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER = os.path.join(app.static_folder, 'uploads')
 # app.config['MAX_CONTENT_LENGTH'] = 16 * 1000 * 1000
 
 
@@ -194,6 +194,7 @@ def api_stats_comunas():
 
 
 @app.route("/api/avistamiento/<int:id>/comentarios", methods=["GET", "POST"])
+
 def comentarios_api(id):
     if request.method == "POST":
         data = request.get_json(silent= True) or request.form
