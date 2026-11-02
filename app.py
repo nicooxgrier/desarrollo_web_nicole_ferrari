@@ -20,7 +20,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER = os.path.join(app.static_folder, 'u
 
 @app.route("/", methods=["GET"])
 def index():
-    ultimos_av =db.ultimos_avistamientos(limit=2)
+    ultimos_av =db.ultimos_avistamientos(limit=3)
     return render_template("Interfaz.html", ultimos_av=ultimos_av) 
 
 
@@ -116,8 +116,7 @@ def registrar_avistamiento():
         ave_id = db.get_or_create_ave(nombre_ave)
         fecha_bd = datetime.strptime(fecha_hora, "%Y-%m-%dT%H:%M") if "T" in fecha_hora else datetime.now()
         voluntarioid = int(voluntario_id) if str(voluntario_id).isdigit() else 1
-        av_id = db.create_avistamiento(voluntario_id=voluntarioid, ave_id=ave_id, fecha_hora=fecha_bd, lugar=sector, descripcion=f"Tipo:{tipo_ave_id}")
-
+        av_id = db.create_avistamiento(voluntarioid, ave_id, fecha_bd, sector, f"Tipo:{tipo_ave_id}")
         upload_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])
         os.makedirs(upload_path, exist_ok = True)
 
@@ -133,7 +132,7 @@ def registrar_avistamiento():
             db.create_registro(av_id, ruta_rel, nombre_limpio)
 
         flash("Avistamiento registrado exitosamente.")
-        return redirect(url_for("index"))
+        return redirect(url_for("listado"))
 
 
     return render_template("Formulario.html", voluntarios=voluntarios, tipos_ave=tipos_ave, regiones=regiones)
@@ -152,7 +151,7 @@ def listado():
     avistamientos, total_items = db.avistamientos_lista(page=page, page_size=page_size, tipo_ave=tipo_filtro, orden=orden)
     total_pages = max(1, (total_items + page_size - 1) // page_size)
 
-    return render_template("Listado.html", avistamientos=avistamientos,tipos_ave=tipos_ave, page=page, total_pages=total_pages,filtro_actual=tipo_filtro, orden_actual=orden)
+    return render_template("Listado.html", avistamientos=avistamientos, tipos_ave=tipos_ave, page=page, total_pages=total_pages, filtro_actual=tipo_filtro, orden_actual=orden)
 
 
 @app.route("/listado/<int:avistamiento_id>", methods=["GET"])
@@ -163,11 +162,6 @@ def detalle_avistamiento(avistamiento_id):
             return "Avistamiento no encontrado", 404
         return render_template("detalle.html", avistamiento=avistamiento)
 
-
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect(url_for("index"))
 
 
 @app.route("/api/comunas/<int:region_id>")
@@ -192,9 +186,12 @@ def api_tipos():
 def api_stats_comunas():
     return jsonify(db.get_stats_comunas())
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("registrar_voluntario"))
 
 @app.route("/api/avistamiento/<int:id>/comentarios", methods=["GET", "POST"])
-
 def comentarios_api(id):
     if request.method == "POST":
         data = request.get_json(silent= True) or request.form

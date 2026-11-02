@@ -1,32 +1,32 @@
-const logoutButton = document.getElementById("logout-btn");
-const addButton = document.getElementById("add-btn");
-const listButton = document.getElementById("list-bird-btn");
-const statsButton = document.getElementById("stats-btn");
+const logoutBtn = document.getElementById("logout-btn");
+const addBirdBtn = document.getElementById("add-bird-btn");
+const listBirdBtn = document.getElementById("list-bird-btn");
+const statsBirdBtn = document.getElementById("stats-bird-btn");
 
-if (logoutButton) {
-  logoutButton.addEventListener("click", (event) => {
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    window.location.href = "../html/Registro.html";
+    window.location.href = "/logout";
   });
 }
 
-if (addButton) {
-  addButton.addEventListener("click", (event) => {
+if (addBirdBtn) {
+  addBirdBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    window.location.href = "../html/Formulario.html";
+    window.location.href = "/form";
   });
 }
 
-if (listButton) {
-  listButton.addEventListener("click", (event) => {
+if (listBirdBtn) {
+  listBirdBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    window.location.href = "../html/Listado.html";
+    window.location.href = "Listado.html";
   });
 }
 
-if (statsButton) {
-  statsButton.addEventListener("click", (event) => {
+if (statsBirdBtn) {
+  statsBirdBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    window.location.href = "../html/Estadisticas.html";
+    window.location.href = "Estadisticas.html";
   });
 }

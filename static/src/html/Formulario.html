@@ -10,13 +10,13 @@
     <header class="navbar">
         <h1>Unión de Ornitólogos de Chile</h1>
         <a class="navbar-page" href="{{url_for('index')}}">Inicio</a>
-        <a id="logout-btn" href="{{url_for('registrar_voluntario')}}">Cerrar Sesión</a>
+        <a href="{{url_for('registrar_voluntario')}}">Cerrar Sesión</a>
     </header>
 
     <div class="container">
       <nav class="navbar">
-        <a id="list-bird-btn" href="{{url_for('listado')}}">Ver Listado</a>
-        <a id="stats-btn" href="{{url_for('estadisticas')}}">Ver Estadísticas</a>
+        <a href="{{url_for('listado')}}">Ver Listado</a>
+        <a href="{{url_for('estadisticas')}}">Ver Estadísticas</a>
       </nav>
     </div>
 
@@ -26,8 +26,13 @@
           <form class="formulario" id="form-avistamiento" method="POST" action="{{url_for('registrar_avistamiento')}}" enctype="multipart/form-data">
             <div id="voluntario-input" class="grupo-input">
               <label for="voluntario-id">Voluntario: (*)</label>
-              <input id="voluntario" name="voluntario" type="text" action="/avistamiento/nuevo" method="POST" enctype="multipart/form-data">>
-              <span class="error" id="error-voluntario"> Por favor ingrese el nombre del voluntario.</span>
+              <select id="voluntario_id" name="voluntario_id">
+                <option value="">--Seleccione--</option>
+                {% for voluntario in voluntarios %}
+                <option value="{{ voluntario.id }}">{{ voluntario.nombre }}</option>
+                {% endfor %}
+              </select>
+              <span class="error" id="error-voluntario"> Por favor seleccione un voluntario.</span>
             </div>
             <div id="nombre-input" class="grupo-input">
               <label for="nombre">Nombre del Ave: (*)</label>
@@ -88,7 +93,7 @@
             </div>
 
             <div class="botones">
-              <button type="submit" id="envio">Enviar registro</button>
+              <button type="button" id="envio" onclick="validarForm()">Enviar registro</button>
             </div>
           </form>
 

@@ -85,7 +85,7 @@
         {%endif%}
         <span id="info-pagina">Página {{ page }} de {{ total_pages }}</span>
         {%if page < total_pages %}
-        <a href="{{ url_for('listado', page=page+1, **{filtro_tipo:filtro_actual, orden_tipo:orden_actual}) }}" id="btn-next">Siguiente</a>
+        <a href="{{ url_for('listado', page=page+1, **{'filtro_tipo': filtro_actual, 'orden_tipo': orden_actual}) }}" id="btn-next">Siguiente</a>
         {%else%}
         <span id="btn-next" style="visibility: hidden;">Siguiente</span>
         {%endif%}

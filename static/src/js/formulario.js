@@ -5,7 +5,6 @@ if (selectRegion && selectComuna) {
   selectRegion.addEventListener("change", async () => {
     let regionId = selectRegion.value;
 
-    // Limpiar comunas anteriores
     while (selectComuna.firstChild) {
       selectComuna.removeChild(selectComuna.firstChild);
     }
@@ -18,7 +17,7 @@ if (selectRegion && selectComuna) {
     if (regionId) {
       try {
         const respuesta = await fetch(`/api/comunas/${regionId}`);
-        const comunas = data = await respuesta.json();
+        const comunas = await respuesta.json();
 
         comunas.forEach((comuna) => {
           let opcion = document.createElement("option");
@@ -56,28 +55,6 @@ if (selectRegion && selectComuna) {
       window.location.href = "../html/Estadisticas.html";
     });
   }
-  selectRegion.addEventListener("change", () => {
-    let seleccion = selectRegion.value;
-
-    while (selectComuna.firstChild){
-      selectComuna.removeChild(selectComuna.firstChild);
-    }
-    
-    let opcionDefault = document.createElement("option");
-    opcionDefault.value = "";
-    opcionDefault.innerText = "--Seleccione--";
-    selectComuna.appendChild(opcionDefault);
-
-    if (seleccion && regionesComunas[seleccion]){
-      regionesComunas[seleccion].forEach((comuna) =>{
-
-        let opcion = document.createElement("option");
-        opcion.value = comuna;
-        opcion.innerText = comuna;
-        selectComuna.appendChild(opcion);
-      });
-    }
-  });
 
 const foto1 = document.getElementById("foto1");
 const foto2 = document.getElementById("foto2");
@@ -138,6 +115,7 @@ function validarForm(){
   const valregion = document.getElementById("region").value;
   const valcomuna = document.getElementById("comuna").value;
   const valfecha = document.getElementById("fecha").value;
+  const vallugar = document.getElementById("lugar").value;
 
   let isValid = true; 
 
@@ -169,6 +147,13 @@ if(!validadorSelect(valcomuna)){
     document.getElementById("error-comuna").classList.remove("visible");
   }
 
+if(!validadorTexto(vallugar, 3)){
+    document.getElementById("error-lugar").classList.add("visible");
+    isValid = false;
+  } else {
+    document.getElementById("error-lugar").classList.remove("visible");
+  }
+
 if(!validadorFecha(valfecha)){
     document.getElementById("error-fecha").classList.add("visible");
     isValid = false;
@@ -186,29 +171,7 @@ if(!validadorArchivos()){
 
 if (isValid){
   const archivo = foto1.files[0];
-  const lector = new FileReader();
-  lector.onload = function(e) {
-    const nuevoAvistamiento = {
-      nombre: valnombre,
-      tipo: valtipo,
-      lugar: vallugar,
-      comuna: valcomuna,
-      region: valregion,
-      fecha: valfecha,
-      foto: e.target.result
-    };
-    const lista = JSON.parse(sessionStorage.getItem("avistamientos")) || [];
-    lista.unshift(nuevoAvistamiento);
-    sessionStorage.setItem("avistamientos", JSON.stringify(lista));
-    
-    alert("Avistamiento registrado exitosamente.");
-    window.location.href = "Interfaz.html";
-  };
-
-  if (archivo) {
-    lector.readAsDataURL(archivo);
-  } else {
-    window.location.href = "Interfaz.html";
-  }
+  
+  document.getElementById("form-avistamiento").submit();
 }
 }

@@ -12,7 +12,7 @@
         <header class="navbar">
             <h1>Unión de Ornitólogos de Chile</h1>
             <a class="navbar-page" href="/">Inicio</a>
-            <a id="logout-btn" href="#logout">Cerrar Sesión</a><br>
+            <a id="logout-btn" href="/voluntario/nuevo" class="boton-enlace">Cerrar Sesión</a>       
         </header>
     <nav class="navbar">
         <a href="/avistamiento/nuevo" class="boton-enlace">Reportar Avistamiento</a>
@@ -25,8 +25,10 @@
         <div class="bird-container">
             <div class="bird-author">
                 {% if av.registros  and av.registros|length > 0 %}
-                <img src="{{url_for('static', filename=av.registros|first|attr('ruta_archivo'))}}" alt="Foto del ave" width="200" height="200">                {% else %}
-                <img src="{{url_for('static', filename='img/ave1.jpg')}}" alt="Ave" width="200" height="200">                {% endif %}
+                <img src="{{ url_for('static', filename=av.registros[0].ruta_archivo) }}" alt="{{ av.nombre_ave }}" width="200" height="200">
+                {% else %}
+                <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Ave" width="200" height="200">
+                {% endif %}
                 <p>@{{ av.voluntario.nombre if av.voluntario else 'Anónimo' }}</p>
             </div>
             <p><strong>{{ av.nombre_ave }}</strong> ({{ av.tipo_ave }}) visto en {{ av.sector }}, el {{ av.fecha_hora.strftime('%d-%m-%Y %H:%M') }}.</p>

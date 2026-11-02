@@ -134,7 +134,7 @@ def get_or_create_ave(nombre_ave):
         return ave.id
 
 
-def create_avistamiento(voluntario_id, ave_id, fecha_hora, lugar, descripcion= None):
+def create_avistamiento(voluntario_id, ave_id, fecha_hora, lugar, descripcion=None):
     with SessionLocal() as session:
         nuevo_avistamiento = Avistamiento(voluntario_id=voluntario_id, ave_id=ave_id, fecha_hora=fecha_hora, lugar=lugar, descripcion=descripcion)
         session.add(nuevo_avistamiento)
