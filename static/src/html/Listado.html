@@ -59,6 +59,7 @@
           </tr>
         </thead>
         <tbody>
+          <h3> Presiona un avistamiento para ver sus detalles y comentar!</h3>
           {% for av in avistamientos %}
           <tr onclick="window.location.href='{{ url_for('detalle_avistamiento', avistamiento_id=av.id) }}'">
             <td>{{ av.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
@@ -78,17 +79,17 @@
         </tbody>
       </table>
       <nav aria-label="Navegación de páginas" class="contenedor-paginacion">
-        {%if page > 1 %}
-        <a href="{{ url_for('listado', page=page+1, **{filtro_tipo:filtro_actual, orden_tipo:orden_actual}) }}" id="btn-prev">Anterior</a>
-        {%else%}
+        {% if page > 1 %}
+        <a href="{{ url_for('listado', page=page-1, **{'filtro-tipo': filtro_actual, 'orden-tipo': orden_actual}) }}" id="btn-prev">Anterior</a>
+        {% else %}
         <span id="btn-prev" style="visibility: hidden;">Anterior</span>
-        {%endif%}
+        {% endif %}
         <span id="info-pagina">Página {{ page }} de {{ total_pages }}</span>
-        {%if page < total_pages %}
-        <a href="{{ url_for('listado', page=page+1, **{'filtro_tipo': filtro_actual, 'orden_tipo': orden_actual}) }}" id="btn-next">Siguiente</a>
-        {%else%}
+        {% if page < total_pages %}
+        <a href="{{ url_for('listado', page=page+1, **{'filtro-tipo': filtro_actual, 'orden-tipo': orden_actual}) }}" id="btn-next">Siguiente</a>
+        {% else %}
         <span id="btn-next" style="visibility: hidden;">Siguiente</span>
-        {%endif%}
+        {% endif %}
       </nav>
     </div>
   </main>

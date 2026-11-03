@@ -2,9 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='src/css/style.css')}}">
     <title>Detalle Avistamiento</title>
 </head>
-<body style="font-family: sans-serif; margin: 20px;">
+<body>
     <h2>{{ avistamiento.ave.nombre }}</h2>
     <p>Lugar: {{ avistamiento.lugar }} | Fecha: {{ avistamiento.fecha_hora }}</p>
     <div>
