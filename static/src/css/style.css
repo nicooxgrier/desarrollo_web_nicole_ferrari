@@ -320,7 +320,8 @@ tbody tr td img {
   background-color: var(--color-superficie);
   color: var(--color-texto);
   outline: none;
-  width: 100%;
+  width:auto;
+  max-width: 100%;
   transition: border-color 0.2s ease;
 }
 

@@ -21,31 +21,32 @@
 
     <main>
       <h2>Listado de Avistamientos</h2>
-      <form method="GET" action="{{url_for('listado')}}">
-        <div class="barra-herramientas">
-          <div class="container">
-            <label for="filtro-tipo">Filtrar por tipo:</label>
-            <select id="filtro-tipo" name="filtro-tipo">
-              <option value="">Todos</option>
-              {%for ave in tipos_ave %}
-              <option value="{{ave.nombre}}" {% if filtro_actual == ave.nombre %}selected {% endif %}>
-                {{ ave.nombre }}
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-        </div>
-    <div class="container">
-      <label for="orden-tipo">Ordenar por:</label>
-      <select id="orden-tipo" name="orden-tipo" onchange="this.form.submit()">
-        <option value="">Ninguno</option>
-        <option value="fecha-decr" {% if orden_actual == 'fecha-decr' %}selected{% endif %}>Fecha (más reciente primero)</option>
-        <option value="fecha-crec" {% if orden_actual == 'fecha-crec' %}selected{% endif %}>Fecha (más antigua primero)</option>
-        <option value="lugar-crec" {% if orden_actual == 'lugar-crec' %}selected{% endif %}>Lugar (A-Z)</option>
-        <option value="lugar-decr" {% if orden_actual == 'lugar-decr' %}selected{% endif %}>Lugar (Z-A)</option>
-      </select>
-    </div>
-  </form>
+      <form method="GET" action="{{ url_for('listado') }}" class="barra-herramientas" id="form-filtros">
+  <input type="hidden" name="page" value="1">
+
+  <div class="grupo-control">
+    <label for="filtro-tipo">Filtrar por tipo:</label>
+    <select id="filtro-tipo" name="filtro-tipo" onchange="document.getElementById('form-filtros').submit();">
+      <option value="" {% if not filtro_actual %}selected{% endif %}>Todos</option>
+      {% for ave in tipos_ave %}
+        <option value="{{ ave.nombre }}" {% if filtro_actual == ave.nombre %}selected{% endif %}>
+          {{ ave.nombre }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="grupo-control">
+    <label for="orden-tipo">Ordenar por:</label>
+    <select id="orden-tipo" name="orden-tipo" onchange="document.getElementById('form-filtros').submit();">
+      <option value="" {% if not orden_actual %}selected{% endif %}>Ninguno</option>
+      <option value="fecha-decr" {% if orden_actual == 'fecha-decr' %}selected{% endif %}>Fecha: Más reciente</option>
+      <option value="fecha-crec" {% if orden_actual == 'fecha-crec' %}selected{% endif %}>Fecha: Más antigua</option>
+      <option value="lugar-decr" {% if orden_actual == 'lugar-decr' %}selected{% endif %}>Lugar: A-Z</option>
+      <option value="lugar-crec" {% if orden_actual == 'lugar-crec' %}selected{% endif %}>Lugar: Z-A</option>
+    </select>
+  </div>
+</form>
     <div class="tabla" id="tabla-interactiva">
       <table>
         <thead>
@@ -61,7 +62,7 @@
         <tbody>
           <h3> Presiona un avistamiento para ver sus detalles y comentar!</h3>
           {% for av in avistamientos %}
-          <tr onclick="window.location.href='{{ url_for('detalle_avistamiento', avistamiento_id=av.id) }}'">
+          <tr onclick="window.location.href=`{{ url_for('detalle_avistamiento', avistamiento_id=av.id) }}`">
             <td>{{ av.fecha_hora.strftime('%Y-%m-%d %H:%M') }}</td>
             <td>{{ av.voluntario.comuna.region.nombre }}</td>
             <td>{{ av.voluntario.comuna.nombre}}</td>
