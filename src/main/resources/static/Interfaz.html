@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    <meta charset="utf-8">
+    <title>Unión de Ornitólogos de Chile</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header class="navbar">
+            <h1>Unión de Ornitólogos de Chile</h1>
+            <a class="navbar-page" href="Interfaz.html">Inicio</a>
+            <a id="logout-btn" href="Interfaz.html" class="boton-enlace">Cerrar Sesión</a>       
+        </header>
+    <nav class="navbar">
+        <a href="Interfaz.html" class="boton-enlace">Reportar Avistamiento</a>
+        <a href="Interfaz.html" class="boton-enlace">Ver Listado</a>
+        <a href="Interfaz.html" class="boton-enlace">Ver Estadísticas</a>
+    </nav>
+    <main>
+        <section class="search-section">
+            <h2>Buscar Avistamientos</h2>
+            <form id="form-buscar" class="container">
+                <label for="q">Buscar por ave, voluntario o comuna:</label>
+                <input type="text" id="q" name="q" autocomplete="off">
+            </form>
+            <div class="container">
+                <p id="estado">Escribe para comenzar a buscar avistamientos.</p>
+            </div>
+            <div class="tabla">
+                <table id="tabla" hidden>
+                    <thead>
+                        <tr>
+                            <th>Voluntario</th>
+                            <th>Día</th>
+                            <th>Ave</th>
+                            <th>Comuna</th>
+                            <th>Nota</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+<script src="interfaz.js"></script>
+</body>
+</html>
